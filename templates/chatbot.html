@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block title %}
+Finance Assistant
+{% endblock %}
+
+{% block page_title %}
+Finance Assistant
+{% endblock %}
+
+{% block content %}
+
+<div class="card">
+
+    <div class="card-body">
+
+        <h4 class="mb-4">
+            🤖 Finance Assistant
+        </h4>
+
+        <form method="POST">
+
+            <input
+                type="text"
+                name="query"
+                class="form-control"
+                placeholder="Ask me about your finances..."
+                required>
+
+            <button
+                class="btn btn-primary mt-3"
+                type="submit">
+
+                Ask
+
+            </button>
+
+        </form>
+
+        {% if user_query %}
+
+        <hr>
+
+        <h5>You Asked:</h5>
+
+        <p>{{ user_query }}</p>
+
+        <h5>Assistant:</h5>
+
+        <div class="alert alert-info">
+
+            {{ response }}
+
+        </div>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+{% endblock %}

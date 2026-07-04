@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block title %}
+Smart Insights
+{% endblock %}
+
+{% block page_title %}
+AI Smart Insights
+{% endblock %}
+
+{% block content %}
+
+<div class="card">
+
+    <div class="card-body">
+
+        <h3 class="mb-4">
+            Financial Insights
+        </h3>
+
+        {% if insights %}
+
+            <div class="row">
+
+                {% for insight in insights %}
+
+                <div class="col-md-6 mb-3">
+
+                    <div class="card border-0 shadow-sm h-100">
+
+                        <div class="card-body">
+
+                            <div class="d-flex align-items-start">
+
+                                <div class="me-3">
+
+                                    <span class="fs-3">
+                                        💡
+                                    </span>
+
+                                </div>
+
+                                <div>
+
+                                    <p class="mb-0">
+                                        {{ insight }}
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+        {% else %}
+
+            <div class="alert alert-info">
+
+                No insights available yet.
+
+                Add more transactions and budgets to generate insights.
+
+            </div>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+{% endblock %}

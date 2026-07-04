@@ -1,0 +1,167 @@
+{% extends "base.html" %}
+
+{% block title %}
+Budget Summary
+{% endblock %}
+
+{% block page_title %}
+Budget Summary
+{% endblock %}
+
+{% block content %}
+
+<div class="card">
+
+    <div class="card-body">
+
+        <div class="d-flex justify-content-between align-items-center mb-4">
+
+            <h4 class="mb-0">
+                Budget Overview
+            </h4>
+
+            <a href="{{ url_for('budget') }}"
+               class="btn btn-primary">
+
+                Set Budget
+
+            </a>
+
+        </div>
+
+        {% if budgets %}
+
+        <div class="table-responsive">
+
+            <table class="table table-hover align-middle">
+
+                <thead class="table-dark">
+
+                    <tr>
+
+                        <th>Category</th>
+                        <th>Budget</th>
+                        <th>Spent</th>
+                        <th>Remaining</th>
+                        <th>Used %</th>
+                        <th>Status</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                {% for b in budgets %}
+
+                    <tr>
+
+                        <td>
+                            {{ b[0] }}
+                        </td>
+
+                        <td class="fw-bold">
+                            ₹{{ b[1] }}
+                        </td>
+
+                        <td class="text-danger fw-bold">
+                            ₹{{ b[2] }}
+                        </td>
+
+                        <td>
+
+                            {% if b[3] >= 0 %}
+
+                                <span class="text-success fw-bold">
+                                    ₹{{ b[3] }}
+                                </span>
+
+                            {% else %}
+
+                                <span class="text-danger fw-bold">
+                                    ₹{{ b[3] }}
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+                        <td>
+
+                            <div class="progress"
+                                 style="height:25px;">
+
+                                <div
+                                    class="progress-bar
+                                    {% if b[4] > 100 %}
+                                        bg-danger
+                                    {% elif b[4] > 80 %}
+                                        bg-warning
+                                    {% else %}
+                                        bg-success
+                                    {% endif %}"
+
+                                    role="progressbar"
+                                    style="width: {{ [b[4],100]|min }}%;">
+
+                                    {{ b[4] }}%
+
+                                </div>
+
+                            </div>
+
+                        </td>
+
+                        <td>
+
+                            {% if b[4] > 100 %}
+
+                                <span class="badge bg-danger">
+                                    Budget Exceeded
+                                </span>
+
+                            {% elif b[4] > 80 %}
+
+                                <span class="badge bg-warning text-dark">
+                                    Warning
+                                </span>
+
+                            {% else %}
+
+                                <span class="badge bg-success">
+                                    Safe
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+                    </tr>
+
+                {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+        {% else %}
+
+            <div class="alert alert-info">
+
+                No budgets found.
+
+                <a href="{{ url_for('budget') }}">
+                    Create your first budget
+                </a>
+
+            </div>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+{% endblock %}

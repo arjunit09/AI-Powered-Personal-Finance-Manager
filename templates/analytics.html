@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Analytics</title>
+
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+
+<h2>Expense Analytics</h2>
+<hr>
+
+
+<h2>Income vs Expense</h2>
+
+{% if bar_graph_json %}
+
+<div id="barchart"></div>
+
+<script>
+
+var barGraph =
+    {{ bar_graph_json | safe }};
+
+Plotly.newPlot(
+    "barchart",
+    barGraph.data,
+    barGraph.layout
+);
+
+</script>
+
+{% endif %}
+<h2>Monthly Expense Trend</h2>
+
+{% if trend_graph_json %}
+
+<div id="linechart"></div>
+
+<script>
+
+var trendGraph =
+    {{ trend_graph_json | safe }};
+
+Plotly.newPlot(
+    "linechart",
+    trendGraph.data,
+    trendGraph.layout
+);
+
+</script>
+
+{% endif %}
+{% if graph_json %}
+<hr>
+<div id="piechart"></div>
+
+<script>
+
+var graph = {{ graph_json | safe }};
+
+Plotly.newPlot(
+    'piechart',
+    graph.data,
+    graph.layout
+);
+
+</script>
+
+{% else %}
+
+<h3>No expense data available.</h3>
+
+{% endif %}
+
+</body>
+</html>

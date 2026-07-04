@@ -1,0 +1,147 @@
+{% extends "base.html" %}
+
+{% block title %}
+Transactions
+{% endblock %}
+
+{% block page_title %}
+Transaction History
+{% endblock %}
+
+{% block content %}
+
+<div class="card">
+
+    <div class="card-body">
+
+        <div class="d-flex justify-content-between align-items-center mb-4">
+
+            <h4 class="mb-0">
+                Your Transactions
+            </h4>
+
+            <a href="{{ url_for('add_transaction') }}"
+               class="btn btn-primary">
+                <i class="bi bi-plus-circle"></i>
+                Add Transaction
+            </a>
+
+        </div>
+
+        {% if transactions %}
+
+        <div class="table-responsive">
+
+            <table class="table table-hover align-middle">
+
+                <thead class="table-dark">
+
+                    <tr>
+
+                        <th>Date</th>
+                        <th>Category</th>
+                        <th>Type</th>
+                        <th>Amount</th>
+                        <th>Description</th>
+                        <th>Actions</th>
+
+                    </tr>
+
+                </thead>
+
+        <tbody>
+
+    {% for t in transactions %}
+
+    <tr>
+
+        <td>
+            {{ t[5] }}
+        </td>
+
+        <td>
+            {{ t[3] }}
+        </td>
+
+        <td>
+
+            {% if t[2] == "income" %}
+
+                <span class="badge bg-success">
+                    Income
+                </span>
+
+            {% else %}
+
+                <span class="badge bg-danger">
+                    Expense
+                </span>
+
+            {% endif %}
+
+        </td>
+
+        <td>
+
+            {% if t[2] == "income" %}
+
+                <span class="text-success fw-bold">
+                    ₹{{ t[1] }}
+                </span>
+
+            {% else %}
+
+                <span class="text-danger fw-bold">
+                    ₹{{ t[1] }}
+                </span>
+
+            {% endif %}
+
+        </td>
+
+        <td>
+        {{ t[4] }}
+    </td>
+
+    <td>
+
+        <a href="{{ url_for('delete_transaction', id=t[0]) }}"
+        class="btn btn-sm btn-danger"
+        onclick="return confirm('Delete this transaction?')">
+
+            <i class="bi bi-trash"></i>
+            Delete
+
+        </a>
+
+    </td>
+
+    </tr>
+
+    {% endfor %}
+
+    </tbody>
+
+            </table>
+
+        </div>
+
+        {% else %}
+
+            <div class="alert alert-info">
+
+                No transactions found.
+
+                <a href="{{ url_for('add_transaction') }}">
+                    Add your first transaction
+                </a>
+
+            </div>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+{% endblock %}

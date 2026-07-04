@@ -1,0 +1,310 @@
+{% extends "base.html" %}
+
+{% block title %}
+Dashboard
+{% endblock %}
+
+{% block page_title %}
+Dashboard Overview
+{% endblock %}
+
+{% block content %}
+
+<div class="row g-4">
+
+    <!-- Income Card -->
+    <div class="col-md-3">
+        <div class="card h-100">
+            <div class="card-body">
+
+                <h6 class="text-muted">
+                    Total Income
+                </h6>
+
+                <h2 class="fw-bold text-success">
+                    ₹{{ income }}
+                </h2>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Expense Card -->
+    <div class="col-md-3">
+        <div class="card h-100">
+            <div class="card-body">
+
+                <h6 class="text-muted">
+                    Total Expense
+                </h6>
+
+                <h2 class="fw-bold text-danger">
+                    ₹{{ expense }}
+                </h2>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Savings Card -->
+    <div class="col-md-3">
+        <div class="card h-100">
+            <div class="card-body">
+
+                <h6 class="text-muted">
+                    Total Savings
+                </h6>
+
+                <h2 class="fw-bold text-primary">
+                    ₹{{ savings }}
+                </h2>
+
+            </div>
+        </div>
+    </div>
+
+
+<div class="col-md-3">
+
+    <div class="card h-100">
+
+        <div class="card-body">
+
+            <h6 class="text-muted">
+                Health Score
+            </h6>
+
+            <h2 class="fw-bold">
+
+                {{ score }}/100
+
+            </h2>
+
+            {% if health_status == "Excellent" %}
+
+                <span class="badge bg-success">
+                    Excellent
+                </span>
+
+            {% elif health_status == "Good" %}
+
+                <span class="badge bg-primary">
+                    Good
+                </span>
+
+            {% elif health_status == "Average" %}
+
+                <span class="badge bg-warning text-dark">
+                    Average
+                </span>
+
+            {% else %}
+
+                <span class="badge bg-danger">
+                    Poor
+                </span>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+</div>
+<!-- AI Prediction -->
+
+<div class="row mt-4">
+
+```
+<div class="col-md-4">
+
+    <div class="card h-100">
+
+        <div class="card-body">
+
+            <h6 class="text-muted">
+                AI Expense Prediction
+            </h6>
+
+            {% if predicted_expense %}
+
+                <h2 class="fw-bold text-info">
+                    ₹{{ predicted_expense }}
+                </h2>
+
+                <small class="text-muted">
+                    Predicted Next Month Expense
+                </small>
+
+            {% else %}
+
+                <p class="text-muted">
+                    Need at least 2 months of expense data
+                </p>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</div>
+```
+
+</div>
+
+</div>
+<!-- Quick Actions -->
+
+<div class="card mt-4">
+    <div class="card-body">
+
+        <h5 class="mb-3">
+            Quick Actions
+        </h5>
+
+        <a href="{{ url_for('add_transaction') }}"
+           class="btn btn-primary me-2 mb-2">
+            Add Transaction
+        </a>
+
+        <a href="{{ url_for('view_transactions') }}"
+           class="btn btn-success me-2 mb-2">
+            View Transactions
+        </a>
+
+        <a href="{{ url_for('budget') }}"
+           class="btn btn-warning me-2 mb-2">
+            Set Budget
+        </a>
+
+        <a href="{{ url_for('analytics') }}"
+           class="btn btn-info me-2 mb-2">
+            Analytics
+        </a>
+
+        <a href="{{ url_for('insights') }}"
+           class="btn btn-dark mb-2">
+            Smart Insights
+        </a>
+
+    </div>
+</div>
+
+<!-- Finance Summary -->
+
+<div class="card mt-4">
+    <div class="card-body">
+
+        <h5 class="mb-3">
+            Financial Summary
+        </h5>
+
+        <div class="row">
+
+            <div class="col-md-4">
+                <strong>Income</strong>
+                <p class="text-success fs-5">
+                    ₹{{ income }}
+                </p>
+            </div>
+
+            <div class="col-md-4">
+                <strong>Expense</strong>
+                <p class="text-danger fs-5">
+                    ₹{{ expense }}
+                </p>
+            </div>
+
+            <div class="col-md-4">
+                <strong>Savings</strong>
+                <p class="text-primary fs-5">
+                    ₹{{ savings }}
+                </p>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+<div class="row mt-4">
+
+    <!-- Recent Transactions -->
+
+    <div class="col-lg-8">
+
+        <div class="card">
+            <div class="card-body">
+
+                <h5 class="mb-3">
+                    Recent Transactions
+                </h5>
+
+                <table class="table table-hover">
+
+                    <thead>
+                        <tr>
+                            <th>Category</th>
+                            <th>Amount</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                    {% for t in recent_transactions %}
+
+                        <tr>
+
+                            <td>{{ t[0] }}</td>
+
+                            <td>₹{{ t[1] }}</td>
+
+                            <td>{{ t[2] }}</td>
+
+                        </tr>
+
+                    {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Top Expense Category -->
+
+    <div class="col-lg-4">
+
+        <div class="card">
+            <div class="card-body">
+
+                <h5 class="mb-3">
+                    Top Expense Category
+                </h5>
+
+                {% if top_category %}
+
+                    <h3 class="text-danger">
+                        {{ top_category[0] }}
+                    </h3>
+
+                    <h5>
+                        ₹{{ top_category[1] }}
+                    </h5>
+
+                {% else %}
+
+                    <p>No expense data available.</p>
+
+                {% endif %}
+
+            </div>
+        </div>
+
+    </div>
+
+</div>
+{% endblock %}
